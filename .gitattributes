@@ -1,0 +1,13 @@
+# Forzar LF (Unix/Mac) para todos los archivos de texto
+* text=auto eol=lf
+
+# Archivos específicos que deben ser binarios
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+

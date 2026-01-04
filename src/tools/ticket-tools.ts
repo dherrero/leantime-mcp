@@ -7,11 +7,13 @@ import { LeantimeClient } from '../leantime-client.js';
  */
 export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   // Tool: get_ticket - Gets a ticket by its ID
-  server.tool(
+  server.registerTool(
     'get_ticket',
-    'Retrieves complete information about a Leantime ticket by its ID',
     {
-      id: z.number().describe('The ticket ID to retrieve'),
+      description: 'Retrieves complete information about a Leantime ticket by its ID',
+      inputSchema: {
+        id: z.number().describe('The ticket ID to retrieve'),
+      },
     },
     async (args) => {
       try {
@@ -43,16 +45,19 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: search_tickets - Search tickets by criteria
-  server.tool(
+  server.registerTool(
     'search_tickets',
-    'Searches for tickets in Leantime based on search criteria. Can filter by project, user, status, etc.',
     {
-      searchCriteria: z
-        .record(z.unknown())
-        .optional()
-        .describe(
-          'Search criteria as JSON object. Examples: {"currentProject": 1}, {"users": [2]}, {"status": 3}'
-        ),
+      description:
+        'Searches for tickets in Leantime based on search criteria. Can filter by project, user, status, etc.',
+      inputSchema: {
+        searchCriteria: z
+          .record(z.string(), z.unknown())
+          .optional()
+          .describe(
+            'Search criteria as JSON object. Examples: {"currentProject": 1}, {"users": [2]}, {"status": 3}'
+          ),
+      },
     },
     async (args) => {
       try {
@@ -84,23 +89,25 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: create_ticket - Creates a new ticket
-  server.tool(
+  server.registerTool(
     'create_ticket',
-    'Creates a new ticket in Leantime with the specified values',
     {
-      headline: z.string().describe('Ticket title (required)'),
-      description: z.string().optional().describe('Ticket description'),
-      projectId: z.number().optional().describe('Project ID'),
-      type: z.string().optional().describe('Ticket type (task, bug, milestone, etc.)'),
-      status: z.number().optional().describe('Ticket status (number)'),
-      priority: z.string().optional().describe('Ticket priority'),
-      userId: z.number().optional().describe('Assigned user ID'),
-      dateToFinish: z.string().optional().describe('Due date (format: YYYY-MM-DD)'),
-      planHours: z.number().optional().describe('Planned hours'),
-      tags: z.string().optional().describe('Tags separated by comma'),
-      sprint: z.string().optional().describe('Assigned sprint'),
-      storypoints: z.string().optional().describe('Story points'),
-      milestoneid: z.number().optional().describe('Associated milestone ID'),
+      description: 'Creates a new ticket in Leantime with the specified values',
+      inputSchema: {
+        headline: z.string().describe('Ticket title (required)'),
+        description: z.string().optional().describe('Ticket description'),
+        projectId: z.number().optional().describe('Project ID'),
+        type: z.string().optional().describe('Ticket type (task, bug, milestone, etc.)'),
+        status: z.number().optional().describe('Ticket status (number)'),
+        priority: z.string().optional().describe('Ticket priority'),
+        userId: z.number().optional().describe('Assigned user ID'),
+        dateToFinish: z.string().optional().describe('Due date (format: YYYY-MM-DD)'),
+        planHours: z.number().optional().describe('Planned hours'),
+        tags: z.string().optional().describe('Tags separated by comma'),
+        sprint: z.string().optional().describe('Assigned sprint'),
+        storypoints: z.string().optional().describe('Story points'),
+        milestoneid: z.number().optional().describe('Associated milestone ID'),
+      },
     },
     async (args) => {
       try {
@@ -151,22 +158,25 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: update_ticket - Updates an existing ticket
-  server.tool(
+  server.registerTool(
     'update_ticket',
-    'Updates an existing ticket in Leantime with the specified values. The ticket ID must be included in the update.',
     {
-      id: z.number().describe('Ticket ID to update (required)'),
-      headline: z.string().optional().describe('New ticket title'),
-      description: z.string().optional().describe('New ticket description'),
-      type: z.string().optional().describe('New ticket type'),
-      status: z.number().optional().describe('New ticket status'),
-      priority: z.string().optional().describe('New priority'),
-      userId: z.number().optional().describe('New assigned user ID'),
-      dateToFinish: z.string().optional().describe('New due date'),
-      planHours: z.number().optional().describe('New planned hours'),
-      tags: z.string().optional().describe('New tags'),
-      sprint: z.string().optional().describe('New sprint'),
-      storypoints: z.string().optional().describe('New story points'),
+      description:
+        'Updates an existing ticket in Leantime with the specified values. The ticket ID must be included in the update.',
+      inputSchema: {
+        id: z.number().describe('Ticket ID to update (required)'),
+        headline: z.string().optional().describe('New ticket title'),
+        description: z.string().optional().describe('New ticket description'),
+        type: z.string().optional().describe('New ticket type'),
+        status: z.number().optional().describe('New ticket status'),
+        priority: z.string().optional().describe('New priority'),
+        userId: z.number().optional().describe('New assigned user ID'),
+        dateToFinish: z.string().optional().describe('New due date'),
+        planHours: z.number().optional().describe('New planned hours'),
+        tags: z.string().optional().describe('New tags'),
+        sprint: z.string().optional().describe('New sprint'),
+        storypoints: z.string().optional().describe('New story points'),
+      },
     },
     async (args) => {
       try {
@@ -244,11 +254,13 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: delete_ticket - Deletes a ticket
-  server.tool(
+  server.registerTool(
     'delete_ticket',
-    'Deletes a ticket from Leantime by its ID',
     {
-      id: z.number().describe('Ticket ID to delete'),
+      description: 'Deletes a ticket from Leantime by its ID',
+      inputSchema: {
+        id: z.number().describe('Ticket ID to delete'),
+      },
     },
     async (args) => {
       try {
@@ -280,13 +292,15 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: find_ticket - Searches tickets by search term
-  server.tool(
+  server.registerTool(
     'find_ticket',
-    'Searches for tickets in Leantime by search term in the headline',
     {
-      term: z.string().describe('Search term'),
-      projectId: z.number().describe('Project ID to search in'),
-      userId: z.number().optional().describe('User ID to filter by (optional)'),
+      description: 'Searches for tickets in Leantime by search term in the headline',
+      inputSchema: {
+        term: z.string().describe('Search term'),
+        projectId: z.number().describe('Project ID to search in'),
+        userId: z.number().optional().describe('User ID to filter by (optional)'),
+      },
     },
     async (args) => {
       try {
@@ -318,10 +332,13 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: get_ticket_types - Gets available ticket types
-  server.tool(
+  server.registerTool(
     'get_ticket_types',
-    'Retrieves the list of available ticket types in Leantime (task, bug, milestone, etc.)',
-    {},
+    {
+      description:
+        'Retrieves the list of available ticket types in Leantime (task, bug, milestone, etc.)',
+      inputSchema: {},
+    },
     async () => {
       try {
         const types = await client.getTicketTypes();
@@ -352,10 +369,12 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: get_priority_labels - Gets priority labels
-  server.tool(
+  server.registerTool(
     'get_priority_labels',
-    'Retrieves the list of available priority labels in Leantime',
-    {},
+    {
+      description: 'Retrieves the list of available priority labels in Leantime',
+      inputSchema: {},
+    },
     async () => {
       try {
         const priorities = await client.getPriorityLabels();
@@ -386,11 +405,13 @@ export function registerTicketTools(server: McpServer, client: LeantimeClient) {
   );
 
   // Tool: get_status_labels - Gets status labels for a project
-  server.tool(
+  server.registerTool(
     'get_status_labels',
-    'Retrieves the available status labels for a specific project in Leantime',
     {
-      projectId: z.number().describe('Project ID'),
+      description: 'Retrieves the available status labels for a specific project in Leantime',
+      inputSchema: {
+        projectId: z.number().describe('Project ID'),
+      },
     },
     async (args) => {
       try {
