@@ -8,7 +8,7 @@
 ![ESLint](https://img.shields.io/badge/ESLint-Configured-4B32C3?logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/Prettier-Configured-F7B93E?logo=prettier&logoColor=black)
 
-MCP (Model Context Protocol) server to manage tickets and projects in Leantime from AI assistants.
+MCP (Model Context Protocol) server to manage tickets and projects in [Leantime](https://leantime.io/) from AI assistants.
 
 ## Installation
 

@@ -8,7 +8,7 @@
 ![ESLint](https://img.shields.io/badge/ESLint-Configured-4B32C3?logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/Prettier-Configured-F7B93E?logo=prettier&logoColor=black)
 
-Servidor MCP (Model Context Protocol) para gestionar tickets y proyectos en Leantime desde asistentes de IA.
+Servidor MCP (Model Context Protocol) para gestionar tickets y proyectos en [Leantime](https://leantime.io/) desde asistentes de IA.
 
 ## Instalación
 
