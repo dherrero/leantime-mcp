@@ -1,6 +1,6 @@
 {
   "name": "myleantime-mcp",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "MCP for leantime",
   "type": "module",
   "main": "dist/index.js",
@@ -17,7 +17,12 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "inspector": "tsc &&npx @modelcontextprotocol/inspector node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dherrero82/leantime-mcp"
   },
   "author": "Daniel Herrero",
   "license": "ISC",

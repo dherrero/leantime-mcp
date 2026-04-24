@@ -113,7 +113,10 @@ export function registerProjectTools(server: McpServer, client: LeantimeClient) 
     'Creates a new project in Leantime with the specified values',
     {
       name: z.string().describe('Project name (required)'),
-      clientId: z.number().describe('Client ID associated with the project (required)'),
+      clientId: z
+        .number()
+        .optional()
+        .describe('Client ID associated with the project (defaults to 0 if no client)'),
       details: z.string().optional().describe('Additional project details'),
       hourBudget: z.number().optional().describe('Hour budget for the project'),
       dollarBudget: z.number().optional().describe('Dollar budget for the project'),
@@ -129,7 +132,7 @@ export function registerProjectTools(server: McpServer, client: LeantimeClient) 
       try {
         const values: Record<string, unknown> = {
           name: args.name,
-          clientId: args.clientId,
+          clientId: args.clientId ?? 0,
           type: 'project',
         };
 

@@ -18,7 +18,7 @@ function parseArguments(): ConfigOptions {
     const arg = args[i];
 
     if (arg === '--help' || arg === '-h') {
-      console.log(`
+      process.stderr.write(`
 Usage: myleantime-mcp [options]
 
 Options:

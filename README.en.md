@@ -5,57 +5,174 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)
 ![MCP](https://img.shields.io/badge/MCP-Server-6C47FF)
-![ESLint](https://img.shields.io/badge/ESLint-Configured-4B32C3?logo=eslint&logoColor=white)
-![Prettier](https://img.shields.io/badge/Prettier-Configured-F7B93E?logo=prettier&logoColor=black)
+![npm](https://img.shields.io/npm/v/myleantime-mcp?logo=npm)
 
 MCP (Model Context Protocol) server to manage tickets and projects in [Leantime](https://leantime.io/) from AI assistants.
 
 ## Installation
+
+### Using npx (recommended)
+
+No installation needed. Use `npx` directly in your AI agent configuration:
+
+```bash
+npx myleantime-mcp --url https://YOUR_LEANTIME_HOST --api-key YOUR_API_KEY
+```
+
+### Global installation
+
+```bash
+npm install -g myleantime-mcp
+myleantime-mcp --url https://YOUR_LEANTIME_HOST --api-key YOUR_API_KEY
+```
+
+### From source
 
 ```bash
 git clone https://github.com/dherrero/leantime-mcp.git
 cd leantime-mcp
 npm install
 npm run build
-# optional to install it as a binary
-npm install -g .
 ```
 
-Optional (environment variables):
+## Configuration for AI agents
 
-```bash
-# .env
-LEANTIME_URL=https://your-leantime-domain.com/api/jsonrpc
-LEANTIME_API_KEY=your-api-key
-```
+### Claude Desktop
 
-## Usage
-
-- Run the server (CLI):
-
-```bash
-myleantime-mcp --url https://YOUR_LEANTIME_HOST/api/jsonrpc --api-key YOUR_API_KEY
-# or using the local build
-npm start -- --url https://YOUR_LEANTIME_HOST/api/jsonrpc --api-key YOUR_API_KEY
-
-# Help
-myleantime-mcp --help
-```
-
-- Integrate it into your MCP client (e.g., Cursor/Claude Desktop):
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
   "mcpServers": {
     "leantime": {
-      "command": "myleantime-mcp", // alternative: node /path_to/dist/index.js
-      "args": ["--url", "https://YOUR_LEANTIME_HOST/api/jsonrpc", "--api-key", "YOUR_API_KEY"]
+      "command": "npx",
+      "args": [
+        "myleantime-mcp",
+        "--url", "https://YOUR_LEANTIME_HOST",
+        "--api-key", "YOUR_API_KEY"
+      ]
     }
   }
 }
 ```
 
-Notes:
+### Claude Code (CLI)
 
-- CLI arguments take precedence over environment variables.
-- Requirements: Node.js 18+ and a valid Leantime API Key.
+```bash
+claude mcp add leantime -- npx myleantime-mcp --url https://YOUR_LEANTIME_HOST --api-key YOUR_API_KEY
+```
+
+Or edit `.claude/settings.json` in your project:
+
+```json
+{
+  "mcpServers": {
+    "leantime": {
+      "command": "npx",
+      "args": [
+        "myleantime-mcp",
+        "--url", "https://YOUR_LEANTIME_HOST",
+        "--api-key", "YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
+
+### Cursor
+
+Edit `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "leantime": {
+      "command": "npx",
+      "args": [
+        "myleantime-mcp",
+        "--url", "https://YOUR_LEANTIME_HOST",
+        "--api-key", "YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
+
+### VS Code (GitHub Copilot)
+
+Edit `.vscode/mcp.json` in your project or in your global user settings:
+
+```json
+{
+  "servers": {
+    "leantime": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "myleantime-mcp",
+        "--url", "https://YOUR_LEANTIME_HOST",
+        "--api-key", "YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
+
+### Windsurf
+
+Edit `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "leantime": {
+      "command": "npx",
+      "args": [
+        "myleantime-mcp",
+        "--url", "https://YOUR_LEANTIME_HOST",
+        "--api-key", "YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
+
+### Zed
+
+Edit Zed's settings (`.zed/settings.json` or global settings):
+
+```json
+{
+  "context_servers": {
+    "leantime": {
+      "command": {
+        "path": "npx",
+        "args": [
+          "myleantime-mcp",
+          "--url", "https://YOUR_LEANTIME_HOST",
+          "--api-key", "YOUR_API_KEY"
+        ]
+      }
+    }
+  }
+}
+```
+
+## Configuration options
+
+| Parameter | Environment variable | Description |
+|-----------|----------------------|-------------|
+| `--url` | `LEANTIME_URL` | Base URL of your Leantime instance (`https://host`) — without `/api/jsonrpc` |
+| `--api-key` | `LEANTIME_API_KEY` | Leantime API Key |
+
+CLI arguments take precedence over environment variables.
+
+## Available tools
+
+- **Tickets**: create, list, update and manage tickets in Leantime.
+- **Projects**: list and query projects.
+
+## Requirements
+
+- Node.js 18+
+- A Leantime instance with API enabled and a valid API Key.
